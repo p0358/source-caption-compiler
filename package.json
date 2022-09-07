@@ -1,0 +1,38 @@
+{
+  "name": "source-caption-compiler",
+  "version": "1.0.0",
+  "description": "Compile Source Engine captions",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint ./src --ext ts",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": [
+    "source-engine",
+    "source",
+    "closed-captions",
+    "subtitles",
+    "captioncompiler"
+  ],
+  "author": "p0358",
+  "license": "LGPL-3.0-or-later",
+  "dependencies": {
+    "crc-32": "^1.2.0",
+    "smart-buffer": "^4.2.0",
+    "vdf-parser": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "eslint": "^8.5.0",
+    "typescript": "^4.5.4"
+  }
+}
