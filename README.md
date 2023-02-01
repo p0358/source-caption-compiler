@@ -1,16 +1,37 @@
 # source-caption-compiler
 
-A library to compile Source Engine's closed captions from human-readable text source file into the binary format read by the engine.
+A library to compile Source Engine's closed captions from human-readable text source file into the binary format read by the engine. You can use it as an alternative to the usage of Source SDK's built-in caption compiler if it fits your workflow better.
 
-It does not support parsing the binary files back into the textual format.
+It does not support parsing the binary files back into the textual format (such operation would probably require supplying an array of valid source translation keys, as they're lost in the binary format and converted into CRC-32 checksums of those).
+
+## Installation
+
+```
+npm install source-caption-compiler
+```
+
+## Usage
+
+```ts
+import * as fs from "node:fs";
+import * as SourceCaptionCompiler from "source-caption-compiler";
+
+const vdf_text = (await fs.promises.readFile("subtitles_english.txt", "utf16le")).toString();
+const compiled = SourceCaptionCompiler.compile(vdf_text);
+await fs.promises.writeFile("subtitles_english.dat", compiled);
+```
+
+`compiled` is a `Buffer` with raw compiled data.
+
+## Example files
 
 Example source:
-```
+```vdf
 "lang"
-{ 
+{
 	"Language" "english"
 	"Tokens"
-	{ 
+	{
 		// Captions defined here.
 		"DIAG_TEXT_01" "<clr:255,125,240>A test caption!"
 		"DIAG_TEXT_02" "<clr:55,250,240>Another test caption!"
@@ -41,15 +62,3 @@ Example compiled data:
 ```
 
 More info on Source's closed captions: https://developer.valvesoftware.com/wiki/Closed_Captions
-
-## Usage
-
-```ts
-import * as fs from 'fs';
-import * as SourceCaptionCompiler from 'source-caption-compiler';
-
-const vdf_text = fs.readFileSync("subtitles_english.txt", "utf16le").toString();
-const compiled = SourceCaptionCompiler.compile(vdf_text);
-```
-
-`compiled` is a buffer with raw compiled data.
